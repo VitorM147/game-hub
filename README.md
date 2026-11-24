@@ -16,6 +16,7 @@
 - Destaques alternáveis na Home, busca (título, desenvolvedor, gênero, tags), 10 categorias (só aparecem as que têm jogo), Novidades e radar editorial.
 - Biblioteca local: favoritos, histórico, "continue jogando", remover item e limpar com confirmação.
 - Página de jogo com mecânicas, controles, créditos, compartilhar e capturas.
+- Página **Criadores** (`/criadores`, dados em `data/creators.ts`).
 - Página **JoyStation Developers** (`/desenvolvedores`) explicando como publicar um jogo.
 - Sem login, sem cadastro, sem banco de dados, sem estatísticas inventadas.
 
@@ -45,7 +46,7 @@ Requer Node.js 20+ (os testes usam `--experimental-strip-types`, Node 22.6+).
 
 ## Deploy
 
-Site estático/SSG; qualquer host de Next.js serve. Defina `NEXT_PUBLIC_SITE_URL` (ex.: `https://seu-dominio.com`) para metadados, sitemap e robots. **Nada é publicado automaticamente por este projeto.**
+Site estático. Publicação no GitHub Pages por workflow: veja [docs/DEPLOY-GITHUB-PAGES.md](docs/DEPLOY-GITHUB-PAGES.md). Em qualquer outro host de Next.js, defina `NEXT_PUBLIC_SITE_URL` para metadados, sitemap e robots.
 
 ## Renomear o repositório (manual, só com sua decisão)
 

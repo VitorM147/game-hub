@@ -21,6 +21,7 @@ export function Footer({ gameCount }: { gameCount: number }) {
             <li><Link className="text-ink hover:text-accent" href="/games">Explorar jogos</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/categorias">Categorias</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/favoritos">Favoritos e histórico</Link></li>
+            <li><Link className="text-ink hover:text-accent" href="/criadores">Criadores</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/desenvolvedores">JoyStation Developers</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/preferencias">Preferências</Link></li>
           </ul>
