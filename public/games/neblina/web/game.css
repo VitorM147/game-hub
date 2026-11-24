@@ -279,3 +279,92 @@ kbd {
   .card-state { grid-column: 2; font-size: .57rem; }
   .card-power { display: none; }
 }
+
+#pause-menu {
+  max-width: calc(100vw - 2rem);
+  margin: auto;
+  padding: 1.4rem;
+  border: 1px solid var(--gold);
+  border-radius: .65rem;
+  color: var(--gold);
+  background: #241c35;
+  text-align: center;
+}
+#pause-menu::backdrop { background: #100d20aa; }
+#pause-title { margin-bottom: 1rem; font-family: var(--display); }
+
+.stage { --arcana-color: #d2bcf6; }
+.stage[data-card="forca"] { --arcana-color: #ffc197; }
+.stage[data-card="estrela"] { --arcana-color: #bce4e9; }
+.arcana {
+  grid-template-columns: 48px minmax(0,1fr) auto;
+  position: relative;
+  overflow: hidden;
+}
+.arcana img { height: 48px; }
+.arcana-number { font: 650 .65rem/1.15 system-ui,sans-serif; letter-spacing: .07em; text-transform: uppercase; color: var(--arcana-color); }
+.arcana[data-state="found"], .arcana[data-state="used"] { border-color: var(--arcana-color); }
+.arcana[data-state="used"] .card-state { color: var(--arcana-color); }
+.arcana.revealed::after {
+  content: "";
+  position: absolute; inset: 0;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, #ffe8b744 50%, transparent 65%);
+  animation: illuminate .85s ease-out both;
+}
+@keyframes illuminate { from { transform: translateX(-105%); } to { transform: translateX(105%); } }
+.seal-hint { color: var(--arcana-color); font-size: .78rem; line-height: 1.35; }
+.spread { display: flex; justify-content: center; gap: 6px; }
+.spread figure { margin: 0; width: clamp(48px,8vw,78px); font: .75rem/1.15 var(--display); }
+.spread img {
+  display: block; width: 100%; height: clamp(40px,7vw,72px); object-fit: cover;
+  border: 1px solid #907b96; border-radius: 4px; margin-bottom: 3px;
+}
+.spread [data-sealed="true"] img { border-color: var(--gold); box-shadow: 0 0 6px #ffc87359; }
+.spread [data-sealed="true"] figcaption { color: var(--gold); }
+.result-actions { display: flex; gap: 8px; justify-content: center; }
+.victory { overflow: auto; }
+.victory-panel { margin: auto; }
+@media(max-width:590px) {
+  .arcana { grid-template-columns: 34px minmax(0,1fr); }
+  .arcana img { height: 44px; }
+  .card-state { font-size: .68rem; }
+  .victory-panel { padding: 6px 9px; gap: 4px; }
+}
+@media(prefers-reduced-motion: reduce) { .arcana.revealed::after { display:none; } }
+
+.pause-icon { width: .62rem; height: .8rem; border-inline: 3px solid var(--gold); }
+.spread figure { width: clamp(64px, 8vw, 78px); }
+.card-reading {
+  display: grid; grid-template-columns: 70px minmax(0,1fr); align-items: center;
+  gap: .8rem; max-width: 20rem; margin: 0 auto 1.2rem; text-align: left;
+}
+.card-reading img { width: 100%; border: 1px solid var(--gold); border-radius: 4px; }
+.card-reading strong { font: 1.05rem var(--display); }
+.card-reading p { margin-top: .3rem; color: var(--ink); font-size: .86rem; line-height: 1.4; }
+.read-card, .target-action {
+  color: var(--gold); background: #302238;
+  border: 1px solid #ad8971; border-radius: 5px; cursor: pointer;
+  font: 700 .78rem/1.2 system-ui, sans-serif;
+}
+.read-card { justify-self: start; padding: 5px 10px; }
+.target-action {
+  position: absolute; translate: -50% -100%; padding: 6px 9px;
+  white-space: nowrap; box-shadow: 0 2px 4px #19122480;
+}
+@media (pointer: coarse) { .read-card, .target-action { min-height: 32px; } }
+@media (orientation:landscape) and (max-height:540px) and (min-width:560px) {
+  .shell { width: min(100% - 20px, 1100px); padding-block: 5px; }
+  .masthead { display:flex; justify-content:space-between; gap:8px; margin-bottom:4px; }
+  .masthead h1 { font-size:1.3rem; }
+  .stage-progress { flex-wrap:wrap; justify-content:center; }
+  .stage-progress h2 { font-size:1rem; }
+  .stage { display:grid; grid-template-columns:minmax(0,2.4fr) minmax(170px,1fr); grid-template-rows:auto auto; gap:4px 10px; align-content:start; }
+  .scene { grid-area:1/1; height:min(55dvh,290px); aspect-ratio:auto; }
+  .touch-controls { grid-area:2/1; margin:0; }
+  .stage-footer { grid-area:1/2/3/3; display:flex; flex-direction:column-reverse; align-self:start; align-items:stretch; gap:8px; margin:0; }
+  .arcana { grid-template-columns:34px minmax(0,1fr); padding:4px; }
+  .arcana img { grid-row:span 2; height:40px; }
+  .card-state { grid-column:2; }
+  .stage-info { gap:4px; }
+}

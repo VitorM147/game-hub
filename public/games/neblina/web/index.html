@@ -21,8 +21,8 @@
           <h2 id="stage-title">Jardim da Lua</h2>
           <p class="spark-count" id="spark-count"></p>
         </div>
-        <button type="button" class="reset" id="reset-game" aria-label="Reiniciar a fase">
-          <span aria-hidden="true">↻</span><span class="reset-text">Reiniciar fase</span>
+        <button type="button" class="reset" id="pause-game" aria-label="Pausar jogo" aria-haspopup="dialog">
+          <span class="pause-icon" aria-hidden="true"></span><span class="reset-text">Pausar</span>
         </button>
       </header>
 
@@ -32,12 +32,16 @@
             aria-label="Neblina em Tarô dos Gatos" aria-describedby="objective move-hint">
             Guie Neblina pelas plataformas e recolha a carta de cada fase.
           </canvas>
+          <button id="target-action" class="target-action" hidden type="button"></button>
           <section class="victory" id="victory" aria-labelledby="victory-title" hidden>
             <div class="victory-panel">
-              <span class="victory-star" aria-hidden="true">✦</span>
+              <div class="spread" id="spread" aria-label="Cartas da sua tiragem" role="group"></div>
               <h2 id="victory-title"></h2>
               <p id="victory-detail"></p>
-              <button type="button" class="reset reset-gold" id="next-action">Próxima fase</button>
+              <div class="result-actions">
+                <button type="button" class="reset" id="retry-seal">Tentar o selo</button>
+                <button type="button" class="reset reset-gold" id="next-action">Próxima fase</button>
+              </div>
             </div>
           </section>
         </div>
@@ -52,16 +56,19 @@
         <footer class="stage-footer">
           <div class="stage-info">
             <p class="objective" id="objective">Encontre a carta da Lua.</p>
+            <p class="seal-hint" id="seal-hint" hidden></p>
             <p class="feedback" id="feedback" role="status"></p>
+            <button id="read-card" class="read-card" aria-haspopup="dialog" type="button" hidden></button>
             <p class="move-hint" id="move-hint">
               <kbd>←</kbd> <kbd>→</kbd> ou <kbd>A</kbd> <kbd>D</kbd> mover
               <span aria-hidden="true">·</span> <kbd>Espaço</kbd> / <kbd>↑</kbd> / <kbd>W</kbd> pular
-              <span aria-hidden="true">·</span> <kbd>E</kbd> / <kbd>1</kbd> usar carta
+              <span aria-hidden="true">·</span> <kbd>E</kbd> / <kbd>1</kbd> usar carta · <kbd>P</kbd> pausar
             </p>
           </div>
           <button type="button" class="arcana" id="arcana" data-state="locked" disabled>
             <img id="card-art" src="./assets/taro/lua.webp" alt="">
             <span class="card-text">
+              <span class="arcana-number" id="arcana-number">Arcano XVIII</span>
               <span class="card-name" id="card-name">A Lua</span>
               <span class="card-power" id="card-power"></span>
             </span>
@@ -69,6 +76,16 @@
           </button>
         </footer>
       </section>
+      <dialog id="pause-menu" aria-labelledby="pause-title">
+        <h2 id="pause-title">Jogo pausado</h2>
+        <figure class="card-reading" id="card-reading" hidden>
+          <img id="reading-art" alt="">
+          <figcaption><strong id="reading-title"></strong><p id="reading-text"></p></figcaption>
+        </figure>
+        <button type="button" class="reset" id="sound">Som ligado</button>
+        <button type="button" class="reset reset-gold" id="resume-game" autofocus>Continuar</button>
+        <button type="button" class="reset" id="reset-game">Reiniciar fase</button>
+      </dialog>
       <noscript>Ative o JavaScript no navegador para jogar Tarô dos Gatos.</noscript>
     </main>
   </body>
