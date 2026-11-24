@@ -126,7 +126,7 @@ Site estático/SSG; qualquer host de Next.js serve (Vercel, Netlify, Cloudflare 
 
 ## NEBLINA — Os Três Arcanos
 
-Segundo jogo do catálogo, vindo de https://github.com/deogos/taro-dos-gatos (título dentro do jogo: "Tarô dos Gatos"). É um jogo web nativo (HTML + módulos JS + Canvas), copiado sem alterações para `public/games/neblina/web/`; o original fica em `game-sources/neblina/original/`. Controles de toque já vêm no próprio jogo.
+Segundo jogo do catálogo, vindo de https://github.com/deogos/taro-dos-gatos (título dentro do jogo: "Tarô dos Gatos"). A versão jogável em `public/games/neblina/web/` acompanha a [edição publicada no ChatGPT Sites](https://neblina-atelie-lunar.gentle-daisy-9866.chatgpt.site/), com habilidades especiais por arcano, desafios opcionais de selo, leitura das cartas e áudio. O código da versão original fica em `game-sources/neblina/original/`. O jogo usa HTML, JavaScript e Canvas e inclui controles de toque.
 
 - A capa é uma arte conceitual fornecida por você (não é captura de tela); a galeria usa uma captura real da fase 1.
 - O repositório de origem **não tem arquivo de licença**: confirme com o autor (deogos) a permissão para publicá-lo antes de colocar a plataforma no ar.

@@ -138,11 +138,17 @@ export const GAMES: Game[] = [
       "Plataformas 2D com obstáculos em patrulha",
       "Controles de toque na tela para celular",
     ],
-    mechanics: ["Explorar cenas guiadas pela narrativa", "Escolher entre os três arcanos", "Descobrir o desfecho conforme as escolhas"],
+    mechanics: [
+      "Usar as cartas para revelar plataformas, quebrar pedras e acender o altar",
+      "Planar com A Lua, dar um impulso com A Força e saltar duas vezes com A Estrela",
+      "Conquistar selos opcionais para completar a tiragem das três cartas",
+    ],
     controls: [
       { keys: ["←", "→"], action: "Andar (ou A e D)" },
       { keys: ["Espaço"], action: "Pular (seta para cima ou W também)" },
-      { keys: ["E"], action: "Usar a carta perto do obstáculo (ou 1)" },
+      { keys: ["E"], action: "Usar a carta ou repetir o impulso de A Força (ou 1)" },
+      { keys: ["L"], action: "Ler a carta encontrada" },
+      { keys: ["P"], action: "Pausar ou retomar (ou Esc)" },
       { keys: ["Enter"], action: "Avançar quando a fase termina" },
     ],
     coverImage: {
