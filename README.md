@@ -16,6 +16,7 @@
 - Destaques alternáveis na Home, busca (título, desenvolvedor, gênero, tags), 10 categorias (só aparecem as que têm jogo), Novidades e radar editorial.
 - Biblioteca local: favoritos, histórico, "continue jogando", remover item e limpar com confirmação.
 - Página de jogo com mecânicas, controles, créditos, compartilhar e capturas.
+- Página **Criadores** (`/criadores`, dados em `data/creators.ts`).
 - Página **JoyStation Developers** (`/desenvolvedores`) explicando como publicar um jogo.
 - Sem login, sem cadastro, sem banco de dados, sem estatísticas inventadas.
 

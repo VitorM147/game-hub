@@ -213,6 +213,7 @@ export function ExploreView({ games, categories }: { games: CatalogGame[]; categ
           </div>
         </div>
 
+        <h2 className="sr-only">Resultados</h2>
         <p aria-live="polite" className="label mb-5 text-mute">
           {results.length} {results.length === 1 ? "resultado" : "resultados"}
           {filters.q.trim() && (

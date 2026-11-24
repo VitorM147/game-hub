@@ -78,3 +78,12 @@ Adicionado como segundo jogo, só editando `data/games.ts` e copiando os arquivo
 **Permissões antes de publicar:** os repositórios de ORION (próprio), NEBLINA (deogos/taro-dos-gatos) e RIO REDLINE (Kaique-Martins/jogo-a3) **não têm LICENSE**; obtenha autorização por escrito dos autores. Nenhuma licença foi adicionada ao código de terceiros. GTA VI é só notícia, sem parceria com a Rockstar.
 
 **Histórico:** o zip antigo continua no histórico do `main` (force-push foi negado). O repositório não foi renomeado e nada foi publicado em produção.
+
+
+### Atualização (23/11/2026, noite): criadores, Lighthouse e orientação
+
+- **Criadores:** `data/creators.ts` (8 nomes e RAs informados pelo grupo), página `/criadores`, seção na Home e link no rodapé. Para remover ou editar alguém (inclusive o RA, que é dado pessoal), basta mexer nesse arquivo.
+- **Orientação no celular:** ao entrar em tela cheia num jogo paisagem, o player tenta travar em paisagem (`screen.orientation.lock`) e destrava ao sair. Verificado em Pixel 7 emulado com a API simulada (chamada com `landscape`); em aparelho real só funciona em Android/Chrome e é ignorado onde não há suporte (iPhone).
+- **Lighthouse 13 (build de produção local, Chrome headless):** após as correções, Home mobile 88 desempenho / 100 acessibilidade / 100 boas práticas / 100 SEO; /games mobile 91 / 100 / 100 / 100. Medições antes dessa rodada (mobile): home 81, games 66, jogo 92, criadores 96, desenvolvedores 99; todas em desktop de 90 a 100. Acessibilidade, boas práticas e SEO: 98 a 100 em todas. Correções feitas: salto de layout em /games (0,63 → 0,04), ordem de títulos e nome acessível do botão Favoritar. Valores variam de rodada para rodada; são de ambiente local, não de produção.
+- `npm audit`: 0 vulnerabilidades. Testes automatizados: 8/8. Playwright em 7 larguras com a página Criadores: sem overflow nem erros.
+- **Continua sem verificação:** celular físico, leitor de tela real, verificação de marca (fora do pedido), licenças dos repositórios de origem, zip no histórico do `main`.

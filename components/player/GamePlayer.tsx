@@ -338,7 +338,15 @@ export function GamePlayer({ game }: { game: PlayerGame }) {
 
   useEffect(() => {
     const onChange = () => {
-      setFullscreen(document.fullscreenElement === stageRef.current);
+      const fs = document.fullscreenElement === stageRef.current;
+      setFullscreen(fs);
+      if (!fs) {
+        try {
+          screen.orientation?.unlock?.();
+        } catch {
+          // Sem suporte.
+        }
+      }
       iframeRef.current?.contentWindow?.focus();
     };
     document.addEventListener("fullscreenchange", onChange);
@@ -350,10 +358,33 @@ export function GamePlayer({ game }: { game: PlayerGame }) {
     iframeRef.current?.contentWindow?.focus();
   }, []);
 
+  async function lockLandscape() {
+    try {
+      const o = screen.orientation as ScreenOrientation & { lock?: (o: string) => Promise<void> };
+      await o.lock?.("landscape");
+    } catch {
+      // Navegador/aparelho sem suporte (ex.: iPhone) ou desktop: ignora.
+    }
+  }
+
+  function unlockOrientation() {
+    try {
+      screen.orientation?.unlock?.();
+    } catch {
+      // Sem suporte.
+    }
+  }
+
   async function toggleFullscreen() {
     try {
-      if (document.fullscreenElement) await document.exitFullscreen();
-      else await stageRef.current?.requestFullscreen();
+      if (document.fullscreenElement) {
+        await document.exitFullscreen();
+        unlockOrientation();
+      } else {
+        await stageRef.current?.requestFullscreen();
+        // Em celulares (Android/Chrome) só é possível travar a orientação em tela cheia; se falhar, segue normal.
+        if (game.aspect.width > game.aspect.height) await lockLandscape();
+      }
     } catch {
       // Tela cheia negada pelo navegador.
     }

@@ -18,7 +18,7 @@ export default function ExplorePage() {
         <h1 className="mt-2 font-display text-5xl font-bold uppercase leading-none">Explorar jogos</h1>
       </header>
       {/* useSearchParams exige Suspense; o fallback já mostra a estrutura da página. */}
-      <Suspense fallback={<p className="label text-mute">Carregando catálogo…</p>}>
+      <Suspense fallback={<p className="label min-h-[80vh] text-mute">Carregando catálogo…</p>}>
         <ExploreView games={games} categories={categories} />
       </Suspense>
     </div>

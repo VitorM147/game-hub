@@ -27,7 +27,7 @@ export function FavoriteButton({ slug, title, variant = "icon", className = "" }
     toast(added ? `${title} foi para os favoritos` : `${title} saiu dos favoritos`);
   }
 
-  const label = active ? `Remover ${title} dos favoritos` : `Adicionar ${title} aos favoritos`;
+  const label = active ? `Nos favoritos: remover ${title}` : `Favoritar ${title}`;
   const icon = (
     <Heart
       key={popKey}

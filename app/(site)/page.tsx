@@ -1,3 +1,4 @@
+import { CreatorsList } from "@/components/games/CreatorsList";
 import { Briefing } from "@/components/games/Briefing";
 import { CategoryRail } from "@/components/games/CategoryRail";
 import { GameGrid } from "@/components/games/GameGrid";
@@ -67,6 +68,19 @@ export default function HomePage() {
             ))}
 
         {featured ? <Briefing game={featured} /> : null}
+
+        <section aria-labelledby="criadores" className="mx-auto w-full max-w-[1360px] px-4 pt-20 sm:px-6 lg:px-8">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1.4fr]">
+            <div>
+              <p className="label text-accent">Equipe</p>
+              <h2 id="criadores" className="mt-2 font-display text-5xl font-bold uppercase leading-none">Criadores</h2>
+              <p className="mt-4 max-w-[40ch] text-[15px] leading-[1.7] text-ink/85">
+                Projeto de grupo da Universidade São Judas, feito por estas oito pessoas.
+              </p>
+            </div>
+            <CreatorsList />
+          </div>
+        </section>
       </div>
     </>
   );
