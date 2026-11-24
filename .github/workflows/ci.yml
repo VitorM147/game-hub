@@ -23,13 +23,19 @@ jobs:
       - run: npm run lint
       - run: npm run typecheck
       - run: npm test
+      # Primeiro o build de servidor (é ele que os testes de navegador usam)...
+      - run: npm run build
+      - name: Testes de navegador (e2e)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
+      # ...e por último o build estático do GitHub Pages (com base path), numa pasta limpa.
       - name: Build estático (como no GitHub Pages)
         env:
           STATIC_EXPORT: "1"
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
           NEXT_PUBLIC_SITE_URL: https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}
-        run: npm run build
-      - name: Testes de navegador (e2e)
         run: |
-          npx playwright install --with-deps chromium
-          npm run test:e2e
+          rm -rf .next out
+          npm run build
+          test -f out/index.html
