@@ -11,7 +11,6 @@ export const metadata: Metadata = {
   title: { default: `${BRAND.name} — ${BRAND.tagline}`, template: `%s · ${BRAND.name}` },
   description: BRAND.description,
   alternates: { canonical: "/" },
-  icons: { icon: "/icon.svg", apple: "/apple-icon.png" },
   openGraph: {
     type: "website",
     siteName: BRAND.name,

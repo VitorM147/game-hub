@@ -3,6 +3,7 @@ import { existsSync, statSync } from "node:fs";
 import path from "node:path";
 import { CATEGORIES } from "@/data/categories";
 import { GAMES } from "@/data/games";
+import { withBase } from "@/config/base-path";
 import type { Availability, CatalogGame, Category, CategoryId, Game, Platform } from "@/types/game";
 
 const PUBLIC_DIR = path.join(process.cwd(), "public");
@@ -24,7 +25,17 @@ function resolve(game: Game): CatalogGame {
   const availability: Availability =
     game.status === "coming-soon" ? "coming-soon" : web ? "web" : dl.exists ? "download" : "unavailable";
   const effectivePlatforms: Platform[] = game.platforms.filter((p) => p !== "web" || web);
-  return { ...game, availability, effectivePlatforms, downloadSizeKB: dl.sizeKB };
+  const img = <T extends { src: string }>(i: T): T => ({ ...i, src: withBase(i.src) });
+  return {
+    ...game,
+    coverImage: img(game.coverImage),
+    screenshots: game.screenshots.map(img),
+    playableUrl: withBase(game.playableUrl),
+    downloadUrl: withBase(game.downloadUrl),
+    availability,
+    effectivePlatforms,
+    downloadSizeKB: dl.sizeKB,
+  };
 }
 
 /** Catálogo jogável/navegável. Conteúdo editorial (notícias) fica de fora. */

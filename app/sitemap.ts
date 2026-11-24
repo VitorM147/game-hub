@@ -4,6 +4,8 @@ import { getAllGames } from "@/lib/catalog";
 
 const SITE_URL = BRAND.siteUrl;
 
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const games = getAllGames();
   return [
