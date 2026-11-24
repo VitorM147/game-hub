@@ -1,15 +1,16 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { ExploreView } from "@/components/games/ExploreView";
-import { getAllGames, getCategories } from "@/lib/catalog";
+import { getAllGames, getCategories, getEditorialGames } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Explorar jogos",
-  description: "Catálogo da JoyStation com busca, filtros por categoria, plataforma e disponibilidade.",
+  description: "Catálogo da JoyStation, com títulos em breve, busca, filtros por categoria, plataforma e disponibilidade.",
 };
 
 export default function ExplorePage() {
-  const games = getAllGames();
+  // Títulos "Em breve"/de terceiros aparecem aqui só como cartão informativo (sem jogar nem baixar).
+  const games = [...getAllGames(), ...getEditorialGames()];
   const categories = getCategories();
   return (
     <div className="mx-auto w-full max-w-[1360px] px-4 pb-4 pt-10 sm:px-6 lg:px-8">
