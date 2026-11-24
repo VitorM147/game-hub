@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>RIO REDLINE — Velocidade sem limites</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 8 8%27%3E%3Crect width=%278%27 height=%278%27 fill=%27%23060210%27/%3E%3Crect x=%271%27 y=%273%27 width=%276%27 height=%272%27 fill=%27%23ffc800%27/%3E%3C/svg%3E">
+<style>
+  @font-face { font-family: "Press Start 2P"; src: url("fonts/PressStart2P-Regular.ttf") format("truetype"); font-display: block; }
+  @font-face { font-family: "VT323"; src: url("fonts/VT323-Regular.ttf") format("truetype"); font-display: block; }
+  :root { --s: clamp(72px, 22vmin, 120px); }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; height: 100%; background: #060210; overflow: hidden; overscroll-behavior: none; }
+  body { font-family: "Liberation Sans", Arial, sans-serif; user-select: none; -webkit-user-select: none; }
+  #app { position: relative; display: flex; flex-direction: column; height: 100%; }
+  #stage { flex: 1; min-height: 0; }
+  canvas { display: block; width: 100%; height: 100%; object-fit: contain; background: #060210; touch-action: none; outline: none; }
+  #touch { display: none; }
+  body.touch #touch { display: block; position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 14px calc(8px + env(safe-area-inset-bottom)); pointer-events: none; }
+  #touch .grupo { display: none; pointer-events: none; justify-content: space-between; align-items: flex-end; gap: 12px; }
+  #touch .grupo > * { pointer-events: auto; touch-action: none; }
+  body.touch[data-estado="corrida"] #g-corrida,
+  body.touch[data-estado="pausa"] #g-nav, body.touch[data-estado="menu"] #g-nav, body.touch[data-estado="garagem"] #g-nav, body.touch[data-estado="opcoes"] #g-nav,
+  body.touch[data-estado="fim"] #g-fim { display: flex; }
+  #touch button { font: bold 13px/1 "Liberation Sans", Arial, sans-serif; letter-spacing: .04em; color: #eff6ff; background: rgba(6, 2, 16, .62);
+    border: 2px solid rgba(0, 255, 255, .6); border-radius: 8px; min-width: calc(var(--s) * .62); height: calc(var(--s) * .62); padding: 0 10px; }
+  #touch button.on { background: rgba(0, 255, 255, .42); }
+  #touch .ok { background: rgba(255, 200, 0, .28); border-color: #ffc800; color: #ffc800; min-width: calc(var(--s) * 1.2); }
+  #touch .grande { min-width: calc(var(--s) * 1.05); height: calc(var(--s) * 1.05); font-size: 15px; border-color: #ff8c00; color: #ffb347; }
+  #touch .col, #touch .par { display: flex; gap: 8px; }
+  #touch .col { flex-direction: column; align-items: stretch; }
+  #dpad { display: grid; grid-template-columns: repeat(3, auto); grid-template-rows: repeat(2, auto); gap: 6px; }
+  #dpad .u { grid-column: 2; grid-row: 1; } #dpad .l { grid-column: 1; grid-row: 2; } #dpad .d { grid-column: 2; grid-row: 2; } #dpad .r { grid-column: 3; grid-row: 2; }
+  @media (orientation: portrait) { body.touch #touch { position: static; padding-top: 10px; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <div id="stage"><canvas id="canvas" width="960" height="540" tabindex="0" aria-label="RIO REDLINE: área do jogo"></canvas></div>
+  <div id="touch">
+    <div class="grupo" id="g-corrida">
+      <div class="par"><button type="button" data-hold="left" aria-label="Esquerda">◀</button><button type="button" data-hold="right" aria-label="Direita">▶</button></div>
+      <div class="par" style="align-items:flex-end">
+        <div class="col"><button type="button" data-press="p">PAUSA</button><button type="button" data-hold="down">FREIO</button><button type="button" data-hold="drift">DRIFT</button></div>
+        <button type="button" class="grande" data-hold="nitro">NITRO</button>
+      </div>
+    </div>
+    <div class="grupo" id="g-nav">
+      <div id="dpad"><button class="u" type="button" data-press="up" aria-label="Cima">▲</button><button class="l" type="button" data-press="left" aria-label="Esquerda">◀</button><button class="d" type="button" data-press="down" aria-label="Baixo">▼</button><button class="r" type="button" data-press="right" aria-label="Direita">▶</button></div>
+      <div class="par"><button type="button" data-press="esc">VOLTAR</button><button type="button" class="ok" data-press="enter">OK</button></div>
+    </div>
+    <div class="grupo" id="g-fim" style="justify-content:center">
+      <div class="par"><button type="button" class="ok" data-press="r">JOGAR DE NOVO</button><button type="button" data-press="m">MENU</button></div>
+    </div>
+  </div>
+</div>
+<script src="game.js"></script>
+</body>
+</html>
