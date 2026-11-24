@@ -5,7 +5,7 @@ import { getAllGames, getCategories } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Categorias",
-  description: "Navegue pelos jogos do Game Hub por categoria.",
+  description: "Navegue pelos jogos da JoyStation por categoria.",
 };
 
 export default function CategoriasPage() {

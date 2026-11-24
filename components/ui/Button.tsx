@@ -12,7 +12,7 @@ const variants: Record<Variant, string> = {
   ghost: "h-10 px-3 text-mute hover:text-ink rounded-xs",
 };
 
-/** Ícone do botão primário vira um bloco escuro encostado à esquerda (assinatura visual do Game Hub). */
+/** Ícone do botão primário vira um bloco escuro encostado à esquerda (assinatura visual da JoyStation). */
 function Inner({ variant, icon, children }: { variant: Variant; icon?: ReactNode; children: ReactNode }) {
   if (variant === "primary") {
     return (

@@ -22,7 +22,10 @@ export interface StoreState {
   prefs: Prefs;
 }
 
-const KEY = "gamehub:v1";
+import { BRAND } from "@/config/brand";
+import { pickStoredValue } from "@/lib/migrate";
+
+const KEY = BRAND.storageKey;
 const HISTORY_LIMIT = 24;
 
 export const DEFAULT_STATE: StoreState = {
@@ -62,8 +65,11 @@ function load() {
   if (loaded || typeof window === "undefined") return;
   loaded = true;
   try {
-    const raw = window.localStorage.getItem(KEY);
-    if (raw) state = sanitize(JSON.parse(raw));
+    const found = pickStoredValue(window.localStorage, KEY, BRAND.legacyStorageKeys);
+    if (found) {
+      state = sanitize(JSON.parse(found.raw));
+      if (found.migrated) window.localStorage.setItem(KEY, JSON.stringify(state));
+    }
   } catch {
     // Armazenamento bloqueado ou corrompido: segue com os padrões.
   }
@@ -125,6 +131,11 @@ export function recordPlay(slug: string) {
 export function clearHistory() {
   load();
   commit({ ...state, history: [] });
+}
+
+export function removeHistoryItem(slug: string) {
+  load();
+  commit({ ...state, history: state.history.filter((h) => h.slug !== slug) });
 }
 
 export function setPref<K extends keyof Prefs>(key: K, value: Prefs[K]) {

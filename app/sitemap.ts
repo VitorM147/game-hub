@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
+import { BRAND } from "@/config/brand";
 import { getAllGames } from "@/lib/catalog";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = BRAND.siteUrl;
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const games = getAllGames();
@@ -10,6 +11,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE_URL}/games`, changeFrequency: "weekly", priority: 0.9 },
     { url: `${SITE_URL}/categorias`, changeFrequency: "monthly", priority: 0.5 },
     { url: `${SITE_URL}/novidades`, changeFrequency: "weekly", priority: 0.5 },
+    { url: `${SITE_URL}/desenvolvedores`, changeFrequency: "yearly", priority: 0.3 },
     ...games.map((g) => ({ url: `${SITE_URL}/games/${g.slug}`, lastModified: g.releaseDate, priority: 0.8 })),
   ];
 }

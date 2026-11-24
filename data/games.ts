@@ -31,6 +31,7 @@ export const GAMES: Game[] = [
       "Trilha chiptune e efeitos sonoros próprios",
       "3 finais: missão cumprida, sem energia ou RX-7 destruído",
     ],
+    mechanics: ["Pilotar o robô de resgate", "Coletar e salvar sobreviventes", "Evitar perigos do cenário", "Bater o próprio recorde"],
     controls: [
       { keys: ["W", "A", "S", "D"], action: "Mover o RX-7 (ou use as setas)" },
       { keys: ["←", "→"], action: "Escolher a dificuldade no menu" },
@@ -137,6 +138,7 @@ export const GAMES: Game[] = [
       "Plataformas 2D com obstáculos em patrulha",
       "Controles de toque na tela para celular",
     ],
+    mechanics: ["Explorar cenas guiadas pela narrativa", "Escolher entre os três arcanos", "Descobrir o desfecho conforme as escolhas"],
     controls: [
       { keys: ["←", "→"], action: "Andar (ou A e D)" },
       { keys: ["Espaço"], action: "Pular (seta para cima ou W também)" },
@@ -196,6 +198,7 @@ export const GAMES: Game[] = [
       "Níveis de dificuldade até o 10, com trânsito que troca de faixa",
       "Progresso e recorde salvos no próprio navegador",
     ],
+    mechanics: ["Desviar de obstáculos e do tráfego", "Gerenciar nitro", "Evoluir pelo progresso salvo", "Superar a própria pontuação"],
     controls: [
       { keys: ["↑", "W"], action: "Acelerar" },
       { keys: ["↓", "S"], action: "Frear" },
@@ -242,7 +245,7 @@ export const GAMES: Game[] = [
     alternateTitle: "GTA 6",
     tagline: "Título da Rockstar Games",
     description:
-      "Próximo capítulo da série Grand Theft Auto, da Rockstar Games. Este cartão existe para acompanhar o assunto: o jogo não faz parte do catálogo do Game Hub e não pode ser jogado nem baixado por aqui.",
+      "Próximo capítulo da série Grand Theft Auto, da Rockstar Games. Este cartão existe para acompanhar o assunto: o jogo não faz parte do catálogo da JoyStation e não pode ser jogado nem baixado por aqui.",
     story: [],
     objectives: [],
     controls: [],
@@ -254,7 +257,7 @@ export const GAMES: Game[] = [
     },
     screenshots: [],
     genre: "Ação e mundo aberto",
-    categories: ["aventura"],
+    categories: ["acao"],
     tags: ["Rockstar Games", "Mundo aberto", "Terceiros"],
     platforms: [],
     technologies: [],
@@ -264,8 +267,9 @@ export const GAMES: Game[] = [
     releaseDate: "2026-11-19",
     developer: "Rockstar Games",
     notice:
-      "Jogo de terceiros, sem ligação com o Game Hub. Segundo a imprensa, saiu em 19/11/2026 para PS5 e Xbox Series X|S; até 23/11/2026 não havia versão nem data para PC. Nada disto roda aqui: sem botão de jogar e sem download.",
+      "Jogo de terceiros, sem ligação com a JoyStation. Segundo a imprensa, saiu em 19/11/2026 para PS5 e Xbox Series X|S; até 23/11/2026 não havia versão nem data para PC. Nada disto roda aqui: sem botão de jogar e sem download.",
     status: "coming-soon",
+    editorial: true,
     credits: [],
   },
 ];

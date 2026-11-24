@@ -66,7 +66,7 @@ export function Header({ entries }: { entries: SearchEntry[] }) {
                 key={item.href}
                 href={item.href}
                 aria-current={current ? "page" : undefined}
-                className={`relative flex items-center px-3 font-display text-[17px] font-semibold uppercase tracking-[0.08em] transition-colors ${
+                className={`relative flex items-center px-2 font-display text-[15px] xl:px-3 xl:text-[17px] font-semibold uppercase tracking-[0.08em] transition-colors ${
                   current ? "text-ink" : "text-mute hover:text-ink"
                 }`}
               >
@@ -76,13 +76,13 @@ export function Header({ entries }: { entries: SearchEntry[] }) {
                     {favorites.length}
                   </span>
                 )}
-                {current && <span aria-hidden="true" className="absolute inset-x-3 bottom-0 h-[3px] bg-accent" />}
+                {current && <span aria-hidden="true" className="absolute inset-x-2 bottom-0 xl:inset-x-3 h-[3px] bg-accent" />}
               </Link>
             );
           })}
         </nav>
 
-        <div className="ml-auto hidden w-full max-w-[300px] md:block">
+        <div className="ml-auto hidden w-full max-w-[180px] md:block lg:max-w-[190px] xl:max-w-[300px]">
           <HeaderSearch entries={entries} />
         </div>
 

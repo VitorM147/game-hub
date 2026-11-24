@@ -27,12 +27,18 @@ function resolve(game: Game): CatalogGame {
   return { ...game, availability, effectivePlatforms, downloadSizeKB: dl.sizeKB };
 }
 
+/** Catálogo jogável/navegável. Conteúdo editorial (notícias) fica de fora. */
 export function getAllGames(): CatalogGame[] {
-  return GAMES.filter((g) => g.status !== "hidden").map(resolve);
+  return GAMES.filter((g) => g.status !== "hidden" && !g.editorial).map(resolve);
+}
+
+/** Radar editorial: títulos acompanhados como notícia, sem jogar nem baixar. */
+export function getEditorialGames(): CatalogGame[] {
+  return GAMES.filter((g) => g.status !== "hidden" && g.editorial).map(resolve);
 }
 
 export function getGameBySlug(slug: string): CatalogGame | undefined {
-  return getAllGames().find((g) => g.slug === slug);
+  return [...getAllGames(), ...getEditorialGames()].find((g) => g.slug === slug);
 }
 
 export function getFeaturedGame(): CatalogGame | undefined {
@@ -53,7 +59,7 @@ export function getRelatedGames(game: CatalogGame, limit = 4): CatalogGame[] {
 
 export function getCategories(): (Category & { count: number })[] {
   const games = getAllGames();
-  return CATEGORIES.map((c) => ({ ...c, count: games.filter((g) => g.categories.includes(c.id)).length }));
+  return CATEGORIES.map((c) => ({ ...c, count: games.filter((g) => g.categories.includes(c.id)).length })).filter((c) => c.count > 0);
 }
 
 export function categoryLabel(id: CategoryId): string {

@@ -1,14 +1,14 @@
 "use client";
 
-import { Heart, History } from "lucide-react";
+import { Heart, History, X } from "lucide-react";
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { GameCard } from "@/components/games/GameCard";
 import { SectionHeading } from "@/components/games/SectionHeading";
 import { ButtonLink, Button } from "@/components/ui/Button";
 import { useFavorites, useHistory } from "@/hooks/useStore";
 import { timeAgo } from "@/lib/format";
-import { clearHistory } from "@/lib/store";
+import { clearHistory, removeHistoryItem } from "@/lib/store";
 import { toast } from "@/lib/toast";
 import type { CatalogGame } from "@/types/game";
 
@@ -28,6 +28,7 @@ function Empty({ icon, title, text, cta }: { icon: React.ReactNode; title: strin
 export function LibraryView({ games }: { games: CatalogGame[] }) {
   const favorites = useFavorites();
   const history = useHistory();
+  const [confirming, setConfirming] = useState(false);
   const bySlug = useMemo(() => new Map(games.map((g) => [g.slug, g])), [games]);
 
   const favGames = favorites.map((s) => bySlug.get(s)).filter((g): g is CatalogGame => !!g);
@@ -65,17 +66,29 @@ export function LibraryView({ games }: { games: CatalogGame[] }) {
               Histórico de jogos
             </h2>
           </div>
-          {histItems.length > 0 && (
-            <Button
-              variant="ghost"
-              onClick={() => {
-                clearHistory();
-                toast("Histórico apagado");
-              }}
-            >
-              Limpar histórico
-            </Button>
-          )}
+          {histItems.length > 0 &&
+            (confirming ? (
+              <div className="flex items-center gap-2" role="alertdialog" aria-label="Confirmar limpeza do histórico">
+                <span className="text-[13px] text-mute">Apagar todo o histórico?</span>
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    clearHistory();
+                    setConfirming(false);
+                    toast("Histórico apagado");
+                  }}
+                >
+                  Sim, apagar
+                </Button>
+                <Button variant="ghost" onClick={() => setConfirming(false)}>
+                  Cancelar
+                </Button>
+              </div>
+            ) : (
+              <Button variant="ghost" onClick={() => setConfirming(true)}>
+                Limpar histórico
+              </Button>
+            ))}
         </div>
         {histItems.length > 0 ? (
           <ul className="divide-y divide-line-soft border border-line bg-surface">
@@ -89,11 +102,24 @@ export function LibraryView({ games }: { games: CatalogGame[] }) {
                     Última sessão {timeAgo(h.lastPlayedAt)} · {h.plays} {h.plays === 1 ? "sessão" : "sessões"}
                   </p>
                 </div>
-                {game.availability === "web" && (
-                  <ButtonLink variant="secondary" href={`/play/${game.slug}`} className="shrink-0">
-                    Jogar de novo
-                  </ButtonLink>
-                )}
+                <div className="flex shrink-0 items-center gap-2">
+                  {game.availability === "web" && (
+                    <ButtonLink variant="secondary" href={`/play/${game.slug}`}>
+                      Jogar de novo
+                    </ButtonLink>
+                  )}
+                  <button
+                    type="button"
+                    aria-label={`Remover ${game.title} do histórico`}
+                    onClick={() => {
+                      removeHistoryItem(game.slug);
+                      toast("Removido do histórico");
+                    }}
+                    className="grid h-11 w-11 place-items-center border border-line text-mute hover:border-accent hover:text-accent"
+                  >
+                    <X size={16} aria-hidden />
+                  </button>
+                </div>
               </li>
             ))}
           </ul>

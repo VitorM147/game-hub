@@ -1,19 +1,67 @@
-# Game Hub
+<p align="center"><img src="public/brand/banner.webp" alt="JoyStation — Seu mundo. Seus jogos." width="800"></p>
 
-Portal de jogos feito com Next.js (App Router), React, TypeScript e Tailwind CSS. Primeiro título do catálogo: **ORION — Protocolo RX-7** (Rescue Robot).
+# JoyStation
 
-Funciona sem infraestrutura paga: é um site estático. Favoritos, histórico e preferências ficam no `localStorage` do navegador (não há conta nem servidor).
+**Seu mundo. Seus jogos.** Plataforma gamer para descobrir, jogar e acompanhar jogos independentes direto no navegador, sem cadastro.
 
-## Rodar localmente
+> Evolução do projeto "Game Hub". O repositório ainda pode aparecer com o nome antigo até ser renomeado (ver "Renomear o repositório").
+
+| Home | Página do jogo | Celular |
+| --- | --- | --- |
+| ![Home](docs/screenshots/home-desktop.png) | ![Jogo](docs/screenshots/jogo-desktop.png) | ![Mobile](docs/screenshots/home-mobile.png) |
+
+## O que tem
+
+- Catálogo com 3 jogos jogáveis no navegador: ORION — Protocolo RX-7, NEBLINA — Os Três Arcanos e RIO REDLINE.
+- Destaques alternáveis na Home, busca (título, desenvolvedor, gênero, tags), 10 categorias (só aparecem as que têm jogo), Novidades e radar editorial.
+- Biblioteca local: favoritos, histórico, "continue jogando", remover item e limpar com confirmação.
+- Página de jogo com mecânicas, controles, créditos, compartilhar e capturas.
+- Página **JoyStation Developers** (`/desenvolvedores`) explicando como publicar um jogo.
+- Sem login, sem cadastro, sem banco de dados, sem estatísticas inventadas.
+
+## Stack
+
+Next.js 16 (App Router, SSG) · React 19 · TypeScript · Tailwind CSS 4 · lucide-react · fontes auto-hospedadas (@fontsource). Jogos em HTML/Canvas dentro de iframe do mesmo domínio.
+
+## Arquitetura
+
+- `config/brand.ts`: nome, tagline, URLs, chaves de armazenamento. Fonte única da identidade.
+- `data/games.ts`: catálogo tipado. A disponibilidade (jogável/indisponível) é calculada no build pela existência dos arquivos (`lib/catalog.ts`).
+- `lib/store.ts`: favoritos, histórico e preferências em `localStorage` (`joystation:v1`). `lib/migrate.ts` migra automaticamente `gamehub:v1` sem apagar a chave antiga.
+- `public/brand/`: logos (SVG), ícone, banner e imagem Open Graph. Regeneráveis com `python3 scripts/brand/generate-brand-assets.py`.
+- Tokens de design em `app/globals.css` (`--color-*`), tipografia Rajdhani (títulos), Inter (texto), JetBrains Mono (rótulos).
+
+## Instalar e rodar
 
 ```bash
-npm install
+npm ci
+npm run build:game   # publica as versões web dos jogos
 npm run dev          # http://localhost:3000
-npm run build && npm start   # produção local
-npm run lint && npm run typecheck
+npm run lint && npm run typecheck && npm test
+npm run build && npm start
 ```
 
-Requer Node.js 20+.
+Requer Node.js 20+ (os testes usam `--experimental-strip-types`, Node 22.6+).
+
+## Deploy
+
+Site estático/SSG; qualquer host de Next.js serve. Defina `NEXT_PUBLIC_SITE_URL` (ex.: `https://seu-dominio.com`) para metadados, sitemap e robots. **Nada é publicado automaticamente por este projeto.**
+
+## Renomear o repositório (manual, só com sua decisão)
+
+O repositório não foi renomeado. Para usar `VitorM147/joystation`: GitHub › Settings › General › Repository name. O GitHub redireciona o endereço antigo; atualize depois `BRAND.repository` em `config/brand.ts` se o nome for outro.
+
+## Marca
+
+O nome "JoyStation" **não teve a disponibilidade de marca verificada** (INPI/EUIPO/USPTO). Faça a busca de anterioridade e avalie conflito com marcas de consoles e plataformas de jogos antes de usar comercialmente. O símbolo (um "J" em pixels num bloco de canto cortado) é original e não imita formas de nenhum console.
+
+## Segurança
+
+Cabeçalhos em `next.config.ts`: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy`. Não há CSP restritiva porque os jogos usam scripts inline. Sem cookies, sem requisições a terceiros, sem dados pessoais.
+
+## Roadmap (não implementado)
+
+Contas e sincronização, avaliações, conquistas, envio de jogos por painel, Lighthouse automatizado em CI, testes em aparelhos reais.
 
 ## Jogar no navegador
 
@@ -34,7 +82,7 @@ Código original preservado em `game-sources/rescue-robot/original/`. A adaptaç
 ## Estrutura
 
 ```
-app/(site)/          Home, /games, /games/[slug], /categorias, /novidades, /favoritos, /preferencias, 404
+app/(site)/          Home, /games, /games/[slug], /categorias, /novidades, /favoritos, /preferencias, /desenvolvedores, 404
 app/(play)/play/[slug]/   Ambiente exclusivo de gameplay
 components/          layout, navigation, games, player, ui
 data/games.ts        Catálogo tipado (fonte única dos jogos)
@@ -46,13 +94,12 @@ game-sources/        Código-fonte original e adaptação web dos jogos
 scripts/             build-rescue-robot-web.sh
 ```
 
-## Adicionar o segundo jogo
+## Adicionar um jogo (resumo; a página /desenvolvedores tem o passo a passo)
 
 1. Coloque os arquivos em `public/games/<slug>/` (capa, capturas e, se houver, `web/index.html` e um `.zip` em `download/`).
 2. Acrescente um objeto em `data/games.ts` seguindo o tipo `Game` (`types/game.ts`). Campos opcionais (`trailerUrl`, `playableUrl`, `downloadUrl`, `repositoryUrl`) só devem existir se forem reais.
 3. `npm run build`. Páginas de detalhe e de jogo (`/games/<slug>`, `/play/<slug>`), busca, filtros, sitemap e as prateleiras da Home passam a incluir o jogo, sem tocar em componentes.
 
-Nenhum segundo jogo foi inventado: o catálogo tem exatamente um título.
 
 ## Deploy
 
@@ -68,16 +115,16 @@ Site estático/SSG; qualquer host de Next.js serve (Vercel, Netlify, Cloudflare 
 - `learning-zone/website-templates` foi analisado só como referência de estrutura. O repositório não tem licença própria na raiz e cada template traz a sua; **nenhum template, imagem ou código dele foi copiado**.
 - Fontes: Rajdhani (OFL), Inter (OFL) e JetBrains Mono (OFL), via `@fontsource`, auto-hospedadas.
 
-## GTA VI "Em breve"
+## GTA VI (conteúdo editorial)
 
-`data/games.ts` tem um cartão `gta-vi` com `status: "coming-soon"`: sem botão de jogar, sem download, sem rota `/play`, capa tipográfica própria (sem arte nem logo da Rockstar). É um título de terceiros e o cartão diz isso. Em 23/11/2026, segundo a imprensa, o jogo já saiu em PS5 e Xbox Series X|S e não tinha versão nem data para PC; ele não roda no Game Hub.
+`data/games.ts` tem um cartão `gta-vi` com `status: "coming-soon"` e `editorial: true` (aparece só em Novidades › Radar do mercado e na própria página, fora do catálogo jogável): sem botão de jogar, sem download, sem rota `/play`, capa tipográfica própria (sem arte nem logo da Rockstar). É um título de terceiros e o cartão diz isso. Em 23/11/2026, segundo a imprensa, o jogo já saiu em PS5 e Xbox Series X|S e não tinha versão nem data para PC; ele não roda na JoyStation.
 
 ## NEBLINA — Os Três Arcanos
 
 Segundo jogo do catálogo, vindo de https://github.com/deogos/taro-dos-gatos (título dentro do jogo: "Tarô dos Gatos"). É um jogo web nativo (HTML + módulos JS + Canvas), copiado sem alterações para `public/games/neblina/web/`; o original fica em `game-sources/neblina/original/`. Controles de toque já vêm no próprio jogo.
 
 - A capa é uma arte conceitual fornecida por você (não é captura de tela); a galeria usa uma captura real da fase 1.
-- O repositório de origem **não tem arquivo de licença**: confirme com o autor (deogos) a permissão para publicá-lo antes de colocar o portal no ar.
+- O repositório de origem **não tem arquivo de licença**: confirme com o autor (deogos) a permissão para publicá-lo antes de colocar a plataforma no ar.
 
 ## RIO REDLINE — Velocidade sem limites
 
@@ -88,4 +135,4 @@ Corrida arcade pseudo-3D (original "Nitro Carioca", Python/pygame, repositório
 - Código original intacto em `game-sources/rio-redline/original/` (sem `save.json`, que é o progresso pessoal do autor).
 - Diferenças do porte: sem "Sair"/"Tela cheia" no menu; progresso em `localStorage`; trânsito inicial e decoração usam outro gerador aleatório (layout não é idêntico); em toque a aceleração é automática; sem som de motor (o repositório não traz `assets/sons/motor.*`).
 - Fontes Press Start 2P e VT323 (licença OFL, em `web/fonts/`).
-- **Licença:** o repositório de origem não tem arquivo LICENSE. Peça autorização ao Kaique antes de publicar o Hub publicamente.
+- **Licença:** o repositório de origem não tem arquivo LICENSE. Peça autorização ao Kaique antes de publicar o portal publicamente.

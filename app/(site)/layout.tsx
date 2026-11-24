@@ -9,6 +9,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
     slug: g.slug,
     title: g.title,
     alternateTitle: g.alternateTitle,
+    developer: g.developer,
     genre: g.genre,
     tags: g.tags,
     categoryLabels: g.categories.map(categoryLabel),

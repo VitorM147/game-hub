@@ -2,6 +2,7 @@ import { Briefing } from "@/components/games/Briefing";
 import { CategoryRail } from "@/components/games/CategoryRail";
 import { GameGrid } from "@/components/games/GameGrid";
 import { Hero } from "@/components/games/Hero";
+import { HeroSwitcher } from "@/components/games/HeroSwitcher";
 import { PersonalShelf } from "@/components/games/PersonalShelf";
 import { SectionHeading } from "@/components/games/SectionHeading";
 import { getAllGames, getCategories, getFeaturedGame } from "@/lib/catalog";
@@ -13,6 +14,7 @@ export default function HomePage() {
   const games = getAllGames();
   const featured = getFeaturedGame();
   const categories = getCategories();
+  const slides = [...games].filter((g) => g.status === "published").sort((a, b) => b.releaseDate.localeCompare(a.releaseDate)).slice(0, 4).map((g) => ({ slug: g.slug, title: g.title, node: <Hero game={g} /> }));
   const small = games.length <= SMALL_CATALOG;
   const recent = [...games].sort((a, b) => b.releaseDate.localeCompare(a.releaseDate)).slice(0, 4);
 
@@ -20,7 +22,7 @@ export default function HomePage() {
     <>
       <div aria-hidden="true" className="dot-grid pointer-events-none absolute inset-x-0 top-0 -z-0 h-[480px]" />
       <div className="relative">
-        {featured ? <Hero game={featured} /> : null}
+        {featured ? <HeroSwitcher slides={slides} /> : null}
 
         <CategoryRail categories={categories} total={games.length} />
 

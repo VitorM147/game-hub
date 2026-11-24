@@ -1,6 +1,16 @@
 /** Tipos do catálogo. Tudo que é exibido ao jogador nasce destes metadados. */
 
-export type CategoryId = "arcade" | "aventura" | "estrategia" | "indie";
+export type CategoryId =
+  | "acao"
+  | "aventura"
+  | "arcade"
+  | "puzzle"
+  | "estrategia"
+  | "corrida"
+  | "rpg"
+  | "plataforma"
+  | "narrativo"
+  | "indie";
 
 /** `web` = roda no navegador; os demais são builds para instalar. */
 export type Platform = "web" | "windows" | "macos" | "linux";
@@ -46,6 +56,8 @@ export interface Game {
   story: string[];
   objectives: string[];
   highlights?: string[];
+  /** Mecânicas principais (ex.: "Desviar de obstáculos"). Aparece na página do jogo. */
+  mechanics?: string[];
   controls: ControlBinding[];
 
   coverImage: ImageAsset;
@@ -76,6 +88,8 @@ export interface Game {
   developer?: string;
   /** Aviso editorial exibido junto ao jogo (ex.: título de terceiros que ainda não roda aqui). */
   notice?: string;
+  /** Conteúdo só informativo (notícia/radar): fica fora do catálogo jogável, sem jogar nem baixar. */
+  editorial?: boolean;
   status: PublicationStatus;
   credits: Credit[];
 }

@@ -21,7 +21,7 @@ export function PlayActions({ game, showDetails = false, showFavorite = true }: 
         </ButtonLink>
       ) : game.availability === "coming-soon" ? (
         <span className="label inline-flex items-center gap-2 border border-line px-4 py-3 text-mute">
-          Em breve · não roda no Game Hub
+          Em breve · não roda na JoyStation
         </span>
       ) : game.availability === "download" && game.downloadUrl ? (
         <ExternalButton
