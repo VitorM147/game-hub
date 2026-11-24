@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { LogoMark } from "@/components/ui/Logo";
+import { LogoMark, Wordmark } from "@/components/ui/Logo";
 
 export function Footer({ gameCount }: { gameCount: number }) {
   return (
@@ -8,10 +8,10 @@ export function Footer({ gameCount }: { gameCount: number }) {
         <div>
           <div className="flex items-center gap-2.5">
             <LogoMark className="h-6 w-6" />
-            <span className="font-display text-xl font-bold uppercase tracking-[0.14em]">GameHub</span>
+            <Wordmark className="text-xl" />
           </div>
           <p className="mt-4 max-w-sm text-[14px] text-mute">
-            Portal para descobrir e jogar títulos direto no navegador, quando o jogo é compatível. Catálogo atual:{" "}
+            Plataforma gamer para descobrir e jogar jogos independentes direto no navegador, quando o jogo é compatível. Catálogo atual:{" "}
             <span className="font-mono text-ink">{gameCount}</span> {gameCount === 1 ? "jogo" : "jogos"}.
           </p>
         </div>
@@ -21,6 +21,7 @@ export function Footer({ gameCount }: { gameCount: number }) {
             <li><Link className="text-ink hover:text-accent" href="/games">Explorar jogos</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/categorias">Categorias</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/favoritos">Favoritos e histórico</Link></li>
+            <li><Link className="text-ink hover:text-accent" href="/desenvolvedores">JoyStation Developers</Link></li>
             <li><Link className="text-ink hover:text-accent" href="/preferencias">Preferências</Link></li>
           </ul>
         </nav>

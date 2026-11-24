@@ -1,5 +1,5 @@
 {
-  "name": "game-hub",
+  "name": "joystation",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
     "lint": "eslint",
     "build:game": "bash scripts/build-rescue-robot-js.sh && bash scripts/build-rio-redline.sh",
     "typecheck": "tsc --noEmit",
+    "test": "node --test --experimental-strip-types tests/*.test.ts",
     "build:game:pygbag": "bash scripts/build-rescue-robot-web.sh"
   },
   "dependencies": {

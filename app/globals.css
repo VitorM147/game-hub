@@ -128,7 +128,7 @@
 }
 
 /* ───────── Movimento reduzido ─────────
-   Respeita o sistema operacional e a preferência local do Game Hub. */
+   Respeita o sistema operacional e a preferência local da JoyStation. */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;

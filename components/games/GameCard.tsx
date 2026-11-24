@@ -44,7 +44,7 @@ export function GameCard({ game, priority = false, meta }: Props) {
         <p className="text-[13px] text-mute">{game.genre}</p>
         {meta && <p className="label text-mute">{meta}</p>}
         <div className="mt-auto flex items-center justify-between pt-2">
-          <p className="label text-mute">{game.developer ?? "Game Hub"}</p>
+          <p className="label text-mute">{game.developer ?? "Desenvolvedor independente"}</p>
           {playable && (
             <Link href={`/games/${game.slug}`} className="label relative z-20 text-mute underline-offset-4 hover:text-ink hover:underline">
               Detalhes

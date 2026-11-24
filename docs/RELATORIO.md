@@ -1,4 +1,4 @@
-# Relatório de entrega — Game Hub MVP
+# Relatório de entrega — JoyStation (antes Game Hub)
 
 ## 1. Análise dos repositórios
 
@@ -65,3 +65,16 @@ Adicionado como segundo jogo, só editando `data/games.ts` e copiando os arquivo
 **Não verificado:** celular físico; som audível (só a geração dos buffers); desempenho em aparelhos fracos; o `tests/test_jogo.py` original não foi executado contra o porte.
 
 **Atenção:** repositório de origem sem LICENSE; capa enviada pelo usuário (arte conceitual, não captura).
+
+
+## JoyStation — rebranding e evolução (23/11/2026, branch `feature/joystation-rebranding`)
+
+**Feito:** marca original (símbolo + wordmark em SVG, ícone, banner, Open Graph), `config/brand.ts`, troca de todas as ocorrências de "Game Hub" no código, metadados/Open Graph/Twitter/JSON-LD/sitemap/robots; Home com destaques alternáveis; 10 categorias (só as não vazias aparecem); busca por desenvolvedor; mecânicas, compartilhar e página de jogo; `/desenvolvedores`; GTA VI como conteúdo editorial (sem jogar, sem baixar, sem rota `/play`); biblioteca com remoção de item e confirmação; migração `gamehub:v1` → `joystation:v1` (a chave antiga é preservada); cabeçalhos de segurança; 8 testes automatizados (`npm test`).
+
+**Executado de verdade (cópia limpa do repositório):** `npm ci` (0 vulnerabilidades reportadas), `npm run build:game`, `npm run lint`, `npm run typecheck`, `npm test` (8/8), `npm run build` (20 páginas). Playwright/Chrome em 360, 390, 768, 1024, 1280, 1440 e 1920 px: sem rolagem horizontal, sem erros de console e sem o texto "Game Hub" em 7 rotas. Verificados no navegador: migração com dados reais de `gamehub:v1`, busca por "kaique", remover item do histórico, GTA VI sem links de jogar/baixar. Bug achado e corrigido: cabeçalho estourava a largura em 1024 px com o nome maior.
+
+**Não feito / não verificado:** Lighthouse não foi rodado (sem pontuações); leitor de tela real; aparelhos físicos; travar orientação no celular durante o jogo; verificação de marca do nome "JoyStation"; consulta de dependências além do `npm ci`.
+
+**Permissões antes de publicar:** os repositórios de ORION (próprio), NEBLINA (deogos/taro-dos-gatos) e RIO REDLINE (Kaique-Martins/jogo-a3) **não têm LICENSE**; obtenha autorização por escrito dos autores. Nenhuma licença foi adicionada ao código de terceiros. GTA VI é só notícia, sem parceria com a Rockstar.
+
+**Histórico:** o zip antigo continua no histórico do `main` (force-push foi negado). O repositório não foi renomeado e nada foi publicado em produção.

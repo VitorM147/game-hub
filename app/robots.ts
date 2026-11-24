@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
+import { BRAND } from "@/config/brand";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
+const SITE_URL = BRAND.siteUrl;
 
 export default function robots(): MetadataRoute.Robots {
   return { rules: { userAgent: "*", allow: "/", disallow: ["/play/"] }, sitemap: `${SITE_URL}/sitemap.xml` };

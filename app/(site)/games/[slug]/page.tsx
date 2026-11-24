@@ -5,17 +5,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GameGrid } from "@/components/games/GameGrid";
 import { PlayActions } from "@/components/games/PlayActions";
+import { ShareButton } from "@/components/games/ShareButton";
 import { ScreenshotGallery } from "@/components/games/ScreenshotGallery";
 import { AvailabilityBadge } from "@/components/ui/Availability";
 import { ControlsList } from "@/components/ui/Keys";
 import { Tag } from "@/components/ui/Tag";
-import { categoryLabel, getAllGames, getGameBySlug, getRelatedGames } from "@/lib/catalog";
+import { categoryLabel, getAllGames, getEditorialGames, getGameBySlug, getRelatedGames } from "@/lib/catalog";
 import { formatDate, formatSize } from "@/lib/format";
 
 type Params = { params: Promise<{ slug: string }> };
 
 export function generateStaticParams() {
-  return getAllGames().map((g) => ({ slug: g.slug }));
+  return [...getAllGames(), ...getEditorialGames()].map((g) => ({ slug: g.slug }));
 }
 
 export async function generateMetadata({ params }: Params): Promise<Metadata> {
@@ -91,6 +92,16 @@ export default async function GamePage({ params }: Params) {
 
             <Section id="sobre" title="Sobre o jogo">
               <p className="max-w-[65ch] text-[16px] leading-[1.7] text-ink/90">{game.description}</p>
+              {game.mechanics && game.mechanics.length > 0 && (
+                <div className="mt-6">
+                  <h3 className="label mb-2 text-mute">Mecânicas principais</h3>
+                  <ul className="flex flex-wrap gap-2">
+                    {game.mechanics.map((m) => (
+                      <li key={m} className="border border-line px-3 py-1 text-[13px] text-ink/90">{m}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
               {game.highlights && (
                 <ul className="mt-5 grid gap-x-8 gap-y-2 sm:grid-cols-2">
                   {game.highlights.map((h) => (
@@ -162,6 +173,7 @@ export default async function GamePage({ params }: Params) {
               <AvailabilityBadge availability={game.availability} />
               <div className="mt-4 [&>div]:flex-col [&>div]:items-stretch [&_a]:w-full [&_button]:w-full">
                 <PlayActions game={game} />
+                <ShareButton title={game.title} path={`/games/${game.slug}`} />
               </div>
               {game.notice && <p className="mt-4 border-l-2 border-line pl-3 text-[13px] leading-relaxed text-mute">{game.notice}</p>}
               {game.availability === "web" && game.input.touch === "supported" && (
