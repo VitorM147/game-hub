@@ -38,7 +38,8 @@ Next.js 16 (App Router, SSG) · React 19 · TypeScript · Tailwind CSS 4 · luci
 npm ci
 npm run build:game   # publica as versões web dos jogos
 npm run dev          # http://localhost:3000
-npm run lint && npm run typecheck && npm test
+npm run lint && npm run typecheck && npm test   # unitários e integridade do catálogo
+npm run build && CHROME_PATH=/usr/bin/google-chrome npm run test:e2e   # navegador (Playwright)
 npm run build && npm start
 ```
 
@@ -58,7 +59,10 @@ O nome "JoyStation" **não teve a disponibilidade de marca verificada** (INPI/EU
 
 ## Segurança
 
-Cabeçalhos em `next.config.ts`: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy`. Não há CSP restritiva porque os jogos usam scripts inline. Sem cookies, sem requisições a terceiros, sem dados pessoais.
+Veja [SECURITY.md](SECURITY.md) (modelo de ameaças, limitações e como relatar). Resumo:
+
+
+Iframes dos jogos com `sandbox`; CSP por `<meta>`; estado local validado. No modo servidor, cabeçalhos em `next.config.ts`: `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy`. Não há CSP restritiva porque os jogos usam scripts inline. Sem cookies, sem requisições a terceiros, sem dados pessoais.
 
 ## Roadmap (não implementado)
 

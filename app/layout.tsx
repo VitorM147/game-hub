@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { PrefsApplier } from "@/components/ui/PrefsApplier";
 import { ToastHost } from "@/components/ui/ToastHost";
 import { BRAND } from "@/config/brand";
+import { CSP } from "@/config/csp";
 import "./globals.css";
 
 
@@ -30,6 +31,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="pt-BR" data-motion="full">
+      <head>
+        {process.env.NODE_ENV === "production" && <meta httpEquiv="Content-Security-Policy" content={CSP} />}
+        <meta name="referrer" content="strict-origin-when-cross-origin" />
+      </head>
       <body className="min-h-dvh">
         <script
           type="application/ld+json"
@@ -45,6 +50,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             }).replace(/</g, "\\u003c"),
           }}
         />
+        <noscript>
+          <p style={{ padding: 16, color: "#f3f5f7", background: "#151922" }}>
+            A JoyStation precisa de JavaScript para listar e abrir os jogos no navegador.
+          </p>
+        </noscript>
         {children}
         <ToastHost />
         <PrefsApplier />
