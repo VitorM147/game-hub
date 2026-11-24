@@ -1,65 +1,21 @@
 /**
  * Persistência local (localStorage) com assinatura reativa.
  * Sem dependências: usado via useSyncExternalStore em hooks/useStore.ts.
- * Tudo fica neste navegador; não há conta nem sincronização.
+ * Tudo fica neste navegador; não há conta nem sincronização. O formato e a validação ficam em lib/state.ts.
  */
-
-export interface HistoryEntry {
-  slug: string;
-  lastPlayedAt: number;
-  plays: number;
-}
-
-export interface Prefs {
-  reduceMotion: boolean;
-  showControlsHint: boolean;
-  compactGrid: boolean;
-}
-
-export interface StoreState {
-  favorites: string[];
-  history: HistoryEntry[];
-  prefs: Prefs;
-}
 
 import { BRAND } from "@/config/brand";
 import { pickStoredValue } from "@/lib/migrate";
+import { DEFAULT_STATE, FAVORITES_LIMIT, HISTORY_LIMIT, sanitize, type HistoryEntry, type Prefs, type StoreState } from "@/lib/state";
+
+export { DEFAULT_STATE };
+export type { HistoryEntry, Prefs, StoreState };
 
 const KEY = BRAND.storageKey;
-const HISTORY_LIMIT = 24;
-
-export const DEFAULT_STATE: StoreState = {
-  favorites: [],
-  history: [],
-  prefs: { reduceMotion: false, showControlsHint: true, compactGrid: false },
-};
 
 let state: StoreState = DEFAULT_STATE;
 let loaded = false;
 const listeners = new Set<() => void>();
-
-function sanitize(raw: unknown): StoreState {
-  const r = (raw && typeof raw === "object" ? raw : {}) as Record<string, unknown>;
-  const favorites = Array.isArray(r.favorites) ? r.favorites.filter((x): x is string => typeof x === "string") : [];
-  const history = Array.isArray(r.history)
-    ? r.history
-        .filter(
-          (h): h is HistoryEntry =>
-            !!h && typeof (h as HistoryEntry).slug === "string" && typeof (h as HistoryEntry).lastPlayedAt === "number",
-        )
-        .map((h) => ({ slug: h.slug, lastPlayedAt: h.lastPlayedAt, plays: Number(h.plays) > 0 ? Number(h.plays) : 1 }))
-    : [];
-  const p = (r.prefs && typeof r.prefs === "object" ? r.prefs : {}) as Partial<Prefs>;
-  return {
-    favorites: [...new Set(favorites)],
-    history: history.slice(0, HISTORY_LIMIT),
-    prefs: {
-      reduceMotion: typeof p.reduceMotion === "boolean" ? p.reduceMotion : DEFAULT_STATE.prefs.reduceMotion,
-      showControlsHint: typeof p.showControlsHint === "boolean" ? p.showControlsHint : DEFAULT_STATE.prefs.showControlsHint,
-      compactGrid: typeof p.compactGrid === "boolean" ? p.compactGrid : DEFAULT_STATE.prefs.compactGrid,
-    },
-  };
-}
 
 function load() {
   if (loaded || typeof window === "undefined") return;
@@ -117,7 +73,7 @@ export function getServerSnapshot(): StoreState {
 export function toggleFavorite(slug: string): boolean {
   load();
   const has = state.favorites.includes(slug);
-  commit({ ...state, favorites: has ? state.favorites.filter((s) => s !== slug) : [slug, ...state.favorites] });
+  commit({ ...state, favorites: has ? state.favorites.filter((s) => s !== slug) : [slug, ...state.favorites].slice(0, FAVORITES_LIMIT) });
   return !has;
 }
 

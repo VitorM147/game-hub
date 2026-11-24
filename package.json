@@ -10,7 +10,8 @@
     "build:game": "bash scripts/build-rescue-robot-js.sh && bash scripts/build-rio-redline.sh",
     "typecheck": "tsc --noEmit",
     "test": "node --test --experimental-strip-types tests/*.test.ts",
-    "build:game:pygbag": "bash scripts/build-rescue-robot-web.sh"
+    "build:game:pygbag": "bash scripts/build-rescue-robot-web.sh",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource-variable/inter": "^5.3.0",
@@ -23,6 +24,7 @@
     "server-only": "^0.0.1"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -180,6 +180,10 @@ function WebStage({
           src={url}
           title={`Jogo: ${game.title}`}
           allow="autoplay; fullscreen; gamepad"
+          // Os jogos são do mesmo domínio e precisam de scripts e de localStorage (recordes). O sandbox bloqueia o resto:
+          // navegar a página de cima, abrir janelas, enviar formulários e usar diálogos do navegador.
+          sandbox="allow-scripts allow-same-origin allow-pointer-lock"
+          referrerPolicy="no-referrer"
           onLoad={() => {
             setPhase((p) => (p === "loading" ? "booting" : p));
           }}

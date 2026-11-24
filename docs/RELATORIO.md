@@ -87,3 +87,23 @@ Adicionado como segundo jogo, só editando `data/games.ts` e copiando os arquivo
 - **Lighthouse 13 (build de produção local, Chrome headless):** após as correções, Home mobile 88 desempenho / 100 acessibilidade / 100 boas práticas / 100 SEO; /games mobile 91 / 100 / 100 / 100. Medições antes dessa rodada (mobile): home 81, games 66, jogo 92, criadores 96, desenvolvedores 99; todas em desktop de 90 a 100. Acessibilidade, boas práticas e SEO: 98 a 100 em todas. Correções feitas: salto de layout em /games (0,63 → 0,04), ordem de títulos e nome acessível do botão Favoritar. Valores variam de rodada para rodada; são de ambiente local, não de produção.
 - `npm audit`: 0 vulnerabilidades. Testes automatizados: 8/8. Playwright em 7 larguras com a página Criadores: sem overflow nem erros.
 - **Continua sem verificação:** celular físico, leitor de tela real, verificação de marca (fora do pedido), licenças dos repositórios de origem, zip no histórico do `main`.
+
+
+## Auditoria estática (método ESAA-Security) e correções, 24/11/2026
+
+Referência: <https://github.com/elzobrito/ESAA-Security> (auditoria por domínio, achado com evidência de arquivo, relatório reprodutível). Aqui foi aplicado só o **método** de forma manual e estática; o framework em si **não foi executado**, então não há pontuação dele.
+
+| Domínio | Achado (evidência) | Correção | Verificação |
+| --- | --- | --- | --- |
+| Frontend / iframe | `GamePlayer.tsx`: iframe sem `sandbox` | `sandbox="allow-scripts allow-same-origin allow-pointer-lock"` + `referrerPolicy` | e2e: atributo presente, sem `allow-top-navigation/popups/forms`; 3 jogos ainda carregam e o canvas é acessado |
+| Headers / CSP | Nenhuma CSP; Pages não aceita cabeçalhos | CSP em `<meta>` (`config/csp.ts`, só em produção) | e2e: meta presente, zero requisições a terceiros, zero erros de console/CSP |
+| Entrada de dados | `lib/store.ts`: validação fraca do localStorage | `lib/state.ts`: slugs validados por regex, ttlimites, duplicados, números finitos | 5 testes unitários, e2e com JSON corrompido e `<script>` |
+| Dependências | Sem rotina | `npm audit` no CI, Dependabot semanal | `npm audit`: 0 vulnerabilidades |
+| Divulgação | Sem política | `SECURITY.md`, `/.well-known/security.txt` | arquivo servido no export estático |
+| Maturidade | Sem privacidade/avisos legais | Página `/privacidade` (dados, créditos, marcas, GTA VI) | e2e + export estático em subpasta |
+| Testes | 8 testes, sem e2e, sem CI de PR | 20 unitários/integridade (`npm test`), 20 e2e (`npm run test:e2e`, desktop + Pixel 7), CI em PR | todos passando localmente |
+| Usabilidade | Sem aviso sem JS | `<noscript>` | revisão manual |
+
+**Limitações que continuam (não dá para corrigir só com código):** GitHub Pages não permite `frame-ancestors`, HSTS próprio nem `Permissions-Policy` (os cabeçalhos de `next.config.ts` só valem no modo servidor); CSP precisa de `'unsafe-inline'`; os `index.html` dos jogos de terceiros não foram alterados (sem CSP própria); jogos sem licença escrita dos autores; **LICENSE do próprio portal não foi adicionada** porque a escolha da licença é decisão do grupo; marca "JoyStation" sem verificação; sem teste em celular físico ou leitor de tela; o relato privado de vulnerabilidades precisa estar habilitado em Settings › Code security.
+
+As "notas" de 0 a 10 mencionadas em conversa são estimativas qualitativas, não certificação nem auditoria independente.
